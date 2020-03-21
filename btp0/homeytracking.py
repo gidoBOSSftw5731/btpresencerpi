@@ -3,11 +3,16 @@
 import bluetooth
 import time
 import urllib2
+import yaml
+import sys
 
 print "In/Out Board"
 
 inRange = False
 interval = 2
+
+if (sys.argv != ""):
+    config = yaml.safe_load(open(sys.argv))
 
 while True:
     print "Checking " + time.strftime("%a, %d %b %Y %H:%M:%S", time.gmtime())
@@ -15,10 +20,8 @@ while True:
     result = bluetooth.lookup_name('3C:28:6D:FB:80:C0', timeout=5)
     if (result != None):
         print "P3XL: in"
-        #urllib2.urlopen("http://192.168.178.XXX/api/app/com.internet/presence/home").read()
     else:
         print "P3XL: out"
-        #urllib2.urlopen("http://192.168.178.XXX/api/app/com.internet/presence/away").read()
     if (inRange != (result != None)): # check for a state change, you dont want to DOS ifttt
         inRange = (result != None)
         print "new state: " + str(inRange)
