@@ -6,6 +6,9 @@ import urllib2
 
 print "In/Out Board"
 
+inRange = False
+interval = 2
+
 while True:
     print "Checking " + time.strftime("%a, %d %b %Y %H:%M:%S", time.gmtime())
 
@@ -16,8 +19,11 @@ while True:
     else:
         print "P3XL: out"
         #urllib2.urlopen("http://192.168.178.XXX/api/app/com.internet/presence/away").read()
-    print "Sleeping for 5"
-    time.sleep(5)
+    if (inRange != (result != None)): # check for a state change, you dont want to DOS ifttt
+        inRange = (result != None)
+        print "new state: " + str(inRange)
+    print "Sleeping for " + str(interval)
+    time.sleep(interval)
 
 
 '''
